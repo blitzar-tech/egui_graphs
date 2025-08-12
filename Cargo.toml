@@ -14,7 +14,7 @@ categories = ["gui", "visualization"]
 egui = { version = "0.32", default-features = false, features = [
   "persistence",
 ] }
-rand = "0.9"
+rand = {version = "0.9", optional = true }
 petgraph = { version = "0.8", default-features = false, features = [
   "graphmap",
   "stable_graph",
@@ -26,7 +26,9 @@ serde = { version = "1.0", features = ["derive"] }
 crossbeam = { version = "0.8", optional = true }
 
 [features]
+# default = ["rand"]
 events = ["dep:crossbeam"]
+rand = ["dep:rand"]
 
 [lints.rust]
 unsafe_code = "forbid"

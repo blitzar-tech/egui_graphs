@@ -6,6 +6,7 @@ use petgraph::{
     visit::IntoNodeReferences,
     Directed, EdgeType, Undirected,
 };
+#[cfg(feature = "rand")]
 use rand::Rng;
 use std::collections::HashMap;
 
@@ -246,6 +247,7 @@ pub fn default_node_transform<
 }
 
 /// Generates a random graph with the specified number of nodes and edges.
+#[cfg(feature = "rand")]
 pub fn generate_random_graph(num_nodes: usize, num_edges: usize) -> Graph {
     let mut rng = rand::rng();
     let mut graph = StableGraph::new();

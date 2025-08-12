@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          # Minimal set for bevy / wgpu builds (audio, input, windowing, pkg-config)
+          sudo apt-get install -y --no-install-recommends \
+            libasound2-dev \
+            libudev-dev \
+            pkg-config \
+            libwayland-dev \
+            libxkbcommon-dev \
+            libxcb-composite0-dev \
+            libgtk-3-dev
+
+      - name: cargo build
+        run: cargo build --no-default-features
+
+      - name: cargo test
+        run: cargo test --no-default-features
